@@ -5,34 +5,32 @@
    ============================================================ */
 
 :root {
-  /* Premium green palette */
-  --green-deep: #0a2e1f;
-  --green-dark: #0f3d2e;
-  --green: #1a5c42;
-  --green-mid: #2d7a5a;
-  --green-light: #4ade80;
-  --green-bright: #22c55e;
-  --green-glow: rgba(74, 222, 128, 0.15);
+  /* Forest Atelier palette */
+  --forest: #173D36;
+  --forest-deep: #102C27;
+  --ivory: #F2EBDD;
+  --copper: #C78352;
+  --charcoal: #26312D;
+  --sage: #78958B;
+  --border-soft: #D5CCBA;
 
-  /* Glass */
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-blur: 12px;
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  /* Semantic */
+  --bg-light: #F2EBDD;
+  --bg-dark: #102C27;
+  --bg-mid: #173D36;
+  --ink: #26312D;
+  --ink-soft: #3a4a44;
+  --ink-muted: #78958B;
+  --accent: #C78352;
+  --accent-light: #d8a070;
+  --accent-dark: #a86840;
 
-  /* Accent */
-  --accent: #4ade80;
-  --accent-light: #86efac;
-  --accent-dark: #22c55e;
-
-  /* Neutrals */
-  --ink: #e8f0ea;
-  --ink-soft: #b8c8be;
-  --ink-muted: #7a9a8a;
-  --bg-dark: #0a1a12;
-  --bg-mid: #0f2a1e;
-  --border: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.25);
+  /* Legacy compat */
+  --pueblo: #C78352;
+  --pueblo-light: #d8a070;
+  --pueblo-dark: #a86840;
+  --sand: #F2EBDD;
+  --ink-dark: #26312D;
 
   /* Type */
   --font-display: "JetBrains Mono", "Courier New", monospace;
@@ -63,15 +61,15 @@ body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--ink);
-  background: var(--bg-dark);
+  background: var(--bg-light);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--bg-dark);
+  background: var(--copper);
+  color: var(--ivory);
 }
 
 img {
@@ -99,11 +97,9 @@ button:focus-visible {
   left: 0;
   right: 0;
   height: var(--nav-h);
-  background: rgba(10, 30, 20, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--forest-deep);
   z-index: 100;
-  border-bottom: 1px solid rgba(74, 222, 128, 0.1);
+  border-bottom: 1px solid rgba(242, 235, 221, 0.1);
   transition: background var(--transition-base), border-color var(--transition-base),
     box-shadow var(--transition-base);
 }
@@ -136,7 +132,7 @@ button:focus-visible {
   font-weight: 700;
   font-size: 20px;
   letter-spacing: 0.04em;
-  color: var(--ink);
+  color: var(--ivory);
 }
 
 .navbar__nav {
@@ -148,11 +144,17 @@ button:focus-visible {
 .nav-link {
   font-size: 15px;
   font-weight: 500;
-  color: var(--ink-soft);
+  color: var(--ivory);
+  opacity: 0.85;
   padding: 8px 12px;
   border-radius: var(--radius);
   position: relative;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.nav-link:hover {
+  opacity: 1;
+  color: var(--copper);
 }
 
 .nav-link::after {
@@ -368,8 +370,8 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: var(--copper);
+  text-shadow: none;
 }
 
 .hero__title {
@@ -384,8 +386,8 @@ button:focus-visible {
 }
 
 .hero__title-accent {
-  color: var(--accent);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: var(--copper);
+  text-shadow: none;
 }
 
 .hero__description {
@@ -394,7 +396,7 @@ button:focus-visible {
   color: var(--ink-soft);
   max-width: 600px;
   line-height: 1.65;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
 }
 
 .hero__ctas {
@@ -419,8 +421,8 @@ button:focus-visible {
 }
 
 .btn--primary {
-  background: var(--accent);
-  color: var(--bg-dark);
+  background: var(--copper);
+  color: var(--ivory);
   border-color: var(--accent);
   box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
 }
@@ -487,11 +489,11 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--pueblo-dark);
+  color: var(--copper);
 }
 
 .section--dark .section__eyebrow {
-  color: var(--pueblo-light);
+  color: var(--copper);
 }
 
 .section__title {
@@ -746,9 +748,10 @@ button:focus-visible {
 
 /* ---------- Footer ---------- */
 .site-footer {
-  background: #5a7a5a;
-  color: rgba(255, 255, 255, 0.8);
+  background: var(--forest-deep);
+  color: var(--ivory);
   padding: 64px 24px 32px;
+  opacity: 0.95;
 }
 
 .footer__inner {
@@ -771,7 +774,7 @@ button:focus-visible {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 20px;
-  color: #fff;
+  color: var(--ivory);
 }
 
 .footer__copy {
