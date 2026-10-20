@@ -970,14 +970,16 @@
   const style = document.createElement("style");
   style.textContent = `
     .navbar.scrolled {
-      background: rgba(200, 220, 232, 0.92);
-      border-bottom-color: rgba(100, 120, 100, 0.2);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      background: rgba(10, 30, 20, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: rgba(74, 222, 128, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     }
     .navbar.scrolled .navbar__logo-text { color: var(--ink); }
     .navbar.scrolled .nav-link { color: var(--ink-soft); }
-    .navbar.scrolled .nav-link:hover { color: var(--ink); background: rgba(100, 120, 100, 0.08); }
-    .navbar.scrolled .navbar__status { color: var(--ink-soft); background: rgba(100, 120, 100, 0.08); }
+    .navbar.scrolled .nav-link:hover { color: var(--accent); background: rgba(74, 222, 128, 0.08); }
+    .navbar.scrolled .navbar__status { color: var(--ink-soft); background: rgba(74, 222, 128, 0.08); }
     .navbar.scrolled .navbar__menu-btn { color: var(--ink); border-color: var(--border-strong); }
   `;
   document.head.appendChild(style);

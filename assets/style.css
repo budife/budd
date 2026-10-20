@@ -5,34 +5,34 @@
    ============================================================ */
 
 :root {
-  /* House interior colors */
-  --wall: #d4c4a8;
-  --wall-dark: #b8a888;
-  --floor: #8a6a4a;
-  --floor-dark: #6a4a2a;
-  --floor-light: #a88a6a;
-  --sofa: #6a5a7a;
-  --sofa-dark: #4a3a5a;
-  --sofa-light: #8a7a9a;
-  --rug: #c85050;
-  --rug-dark: #a03030;
-  --window: #87CEEB;
-  --window-frame: #6a5a4a;
-  --lamp: #f5c542;
-  --lamp-glow: #ffd966;
+  /* Premium green palette */
+  --green-deep: #0a2e1f;
+  --green-dark: #0f3d2e;
+  --green: #1a5c42;
+  --green-mid: #2d7a5a;
+  --green-light: #4ade80;
+  --green-bright: #22c55e;
+  --green-glow: rgba(74, 222, 128, 0.15);
 
-  /* Accent colors */
-  --pueblo: #e89040;
-  --pueblo-light: #f0a860;
-  --pueblo-dark: #d07030;
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-blur: 12px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+  /* Accent */
+  --accent: #4ade80;
+  --accent-light: #86efac;
+  --accent-dark: #22c55e;
 
   /* Neutrals */
-  --ink: #2d2d2d;
-  --ink-soft: #4a4a4a;
-  --ink-muted: #7a7a7a;
-  --sand: #f5f0e8;
-  --border: #c4b8a8;
-  --border-strong: #a89888;
+  --ink: #e8f0ea;
+  --ink-soft: #b8c8be;
+  --ink-muted: #7a9a8a;
+  --bg-dark: #0a1a12;
+  --bg-mid: #0f2a1e;
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.25);
 
   /* Type */
   --font-display: "JetBrains Mono", "Courier New", monospace;
@@ -63,15 +63,15 @@ body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--ink);
-  background: var(--sand);
+  background: var(--bg-dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--pueblo);
-  color: #fff;
+  background: var(--accent);
+  color: var(--bg-dark);
 }
 
 img {
@@ -99,10 +99,11 @@ button:focus-visible {
   left: 0;
   right: 0;
   height: var(--nav-h);
-  background: transparent;
-  backdrop-filter: blur(12px);
+  background: rgba(10, 30, 20, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 100;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.1);
   transition: background var(--transition-base), border-color var(--transition-base),
     box-shadow var(--transition-base);
 }
@@ -367,8 +368,8 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--pueblo-dark);
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  color: var(--accent);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero__title {
@@ -379,12 +380,12 @@ button:focus-visible {
   line-height: 1.05;
   color: var(--ink);
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero__title-accent {
-  color: var(--pueblo-dark);
-  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
+  color: var(--accent);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero__description {
@@ -393,7 +394,7 @@ button:focus-visible {
   color: var(--ink-soft);
   max-width: 600px;
   line-height: 1.65;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero__ctas {
@@ -418,27 +419,30 @@ button:focus-visible {
 }
 
 .btn--primary {
-  background: var(--pueblo);
-  color: #fff;
-  border-color: var(--pueblo);
+  background: var(--accent);
+  color: var(--bg-dark);
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
 }
 
 .btn--primary:hover {
-  background: var(--pueblo-dark);
-  border-color: var(--pueblo-dark);
+  background: var(--accent-light);
+  border-color: var(--accent-light);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(232, 144, 64, 0.35);
+  box-shadow: 0 6px 30px rgba(74, 222, 128, 0.45);
 }
 
 .btn--secondary {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--glass-bg);
   color: var(--ink);
-  border-color: var(--ink-soft);
+  border-color: var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
 .btn--secondary:hover {
-  background: rgba(0, 0, 0, 0.1);
-  border-color: var(--ink);
+  background: rgba(74, 222, 128, 0.1);
+  border-color: var(--accent);
   transform: translateY(-2px);
 }
 
