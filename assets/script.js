@@ -372,19 +372,9 @@
     { x: W * 0.70, y: H * 0.62, facing: -1 },
     { x: W * 0.78, y: H * 0.75, facing: 1 },
     { x: W * 0.85, y: H * 0.68, facing: -1 },
-    { x: W * 0.15, y: H * 0.65, facing: 1 },
-    { x: W * 0.28, y: H * 0.60, facing: -1 },
-    { x: W * 0.52, y: H * 0.55, facing: 1 },
-    { x: W * 0.65, y: H * 0.58, facing: -1 },
-    { x: W * 0.82, y: H * 0.60, facing: 1 },
-    { x: W * 0.35, y: H * 0.82, facing: -1 },
-    { x: W * 0.45, y: H * 0.85, facing: 1 },
-    { x: W * 0.60, y: H * 0.82, facing: -1 },
-    { x: W * 0.72, y: H * 0.85, facing: 1 },
-    { x: W * 0.90, y: H * 0.78, facing: -1 },
   ];
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 10; i++) {
     const isPlayer = (i === 0);
     const colors = CAT_COLORS[i];
     const pos = CAT_POSITIONS[i];
