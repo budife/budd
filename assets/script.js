@@ -993,37 +993,4 @@
   document.head.appendChild(style);
 
 
-  // Mobile controls
-  const mobileControls = document.createElement("div");
-  mobileControls.style.cssText = "position:absolute;bottom:8px;right:8px;display:flex;gap:6px;pointer-events:none;z-index:10;align-items:flex-end;";
-  mobileControls.innerHTML = `
-    <button id="btnLeft" style="width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.6);color:#fff;font-size:14px;cursor:pointer;pointer-events:auto;">&#9664;</button>
-    <button id="btnRight" style="width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.6);color:#fff;font-size:14px;cursor:pointer;pointer-events:auto;">&#9654;</button>
-    <button id="btnJump" style="width:48px;height:48px;border-radius:50%;background:rgba(232,144,64,0.7);border:2px solid rgba(255,255,255,0.6);color:#fff;font-size:11px;font-weight:700;cursor:pointer;pointer-events:auto;">JUMP</button>
-  `;
-  const viewport = document.querySelector(".hero__viewport");
-  if (viewport && window.innerWidth < 768) {
-    viewport.style.position = "relative";
-    viewport.appendChild(mobileControls);
-  }
-
-  function setupMobileBtn(id, key) {
-    const btn = document.getElementById(id);
-    if (!btn) return;
-    btn.addEventListener("touchstart", (e) => { e.preventDefault(); keys[key] = true; });
-    btn.addEventListener("touchend", (e) => { e.preventDefault(); keys[key] = false; });
-    btn.addEventListener("mousedown", () => { keys[key] = true; });
-    btn.addEventListener("mouseup", () => { keys[key] = false; });
-    btn.addEventListener("mouseleave", () => { keys[key] = false; });
-  }
-  setupMobileBtn("btnLeft", "left");
-  setupMobileBtn("btnRight", "right");
-  const jumpBtn = document.getElementById("btnJump");
-  if (jumpBtn) {
-    jumpBtn.addEventListener("touchstart", (e) => { e.preventDefault(); keys.jump = true; });
-    jumpBtn.addEventListener("touchend", (e) => { e.preventDefault(); keys.jump = false; });
-    jumpBtn.addEventListener("mousedown", () => { keys.jump = true; });
-    jumpBtn.addEventListener("mouseup", () => { keys.jump = false; });
-  }
-
 })();
