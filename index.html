@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/style.css?v=7" />
+  <link rel="stylesheet" href="assets/style.css?v=13" />
 </head>
 <body>
 
@@ -56,9 +56,12 @@
 
   <!-- ============ HERO / POND ============ -->
   <section class="hero" id="home">
-    <canvas class="hero__canvas" id="pondCanvas" width="1600" height="1000"></canvas>
+    <!-- Decorative cats (upper area) -->
+    <div class="hero__decorative-cats" id="decorativeCats">
+      <canvas id="decoCanvas" width="900" height="100"></canvas>
+    </div>
 
-    <!-- Hero content overlay (front layer, DOM-rendered) -->
+    <!-- Hero content (left side) -->
     <div class="hero__content">
       <p class="hero__eyebrow">Independent Digital Studio</p>
       <h1 class="hero__title">
@@ -73,6 +76,14 @@
         <a href="#about" class="btn btn--secondary">Enter the pond <span class="btn__arrow">↗</span></a>
       </div>
     </div>
+
+    <!-- Central bounded game viewport -->
+    <div class="hero__viewport">
+      <canvas class="hero__canvas" id="pondCanvas" width="800" height="320"></canvas>
+    </div>
+
+    <!-- Hero boundary -->
+    <div class="hero__boundary"></div>
   </section>
 
   <!-- ============ PROJECTS ============ -->
@@ -260,6 +271,6 @@
     </div>
   </footer>
 
-  <script src="assets/script.js?v=30"></script>
+  <script src="assets/script.js?v=44"></script>
 </body>
 </html>

@@ -289,30 +289,76 @@ button:focus-visible {
 .hero {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
+  padding: 80px 24px 40px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 24px;
+  overflow: hidden;
   background: transparent;
 }
 
-.hero__canvas {
-  position: absolute;
-  inset: 0;
+/* Decorative cats (upper area) */
+.hero__decorative-cats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 20px;
+  max-width: 900px;
   width: 100%;
-  height: 100%;
-  display: block;
+  min-height: 80px;
+  padding: 12px 0;
 }
 
+.hero__decorative-cats .deco-cat {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Hero content (left-aligned, above viewport) */
 .hero__content {
   position: relative;
   z-index: 2;
   max-width: 780px;
-  padding: 0 24px 60px;
-  max-height: 90vh;
-  overflow-y: auto;
+  width: 100%;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* Central bounded game viewport */
+.hero__viewport {
+  position: relative;
+  width: 55%;
+  max-width: 900px;
+  min-width: 320px;
+  aspect-ratio: 800 / 320;
+  border: 3px solid rgba(15, 61, 62, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #1a2a2a;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.hero__canvas {
+  touch-action: none;
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Hero boundary (bottom) */
+.hero__boundary {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(15, 61, 62, 0.2), transparent);
+  margin-top: 8px;
 }
 
 .hero__eyebrow {
@@ -781,11 +827,35 @@ button:focus-visible {
   }
 
   .hero {
-    min-height: 92vh;
+    min-height: auto;
+    padding: 60px 16px 24px;
+  }
+
+  .hero__viewport {
+    width: 95%;
+    min-width: 280px;
+  }
+
+  .hero__decorative-cats {
+    gap: 8px 12px;
+  }
+
+  .hero__decorative-cats .deco-cat {
+    width: 36px;
+    height: 36px;
   }
 
   .hero__content {
     padding-bottom: 40px;
+    padding-top: 80px;
+  }
+
+  .hero__title {
+    font-size: clamp(36px, 10vw, 52px);
+  }
+
+  .hero__description {
+    font-size: 16px;
   }
 }
 

@@ -7,6 +7,14 @@
   const W = canvas.width;
   const H = canvas.height;
 
+  const GRAVITY = 0.6;
+  const JUMP_STRENGTH = -12;
+  const MOVE_SPEED = 4;
+  const FRICTION = 0.8;
+  const MAX_FALL = 15;
+
+  const keys = { left: false, right: false, jump: false, down: false };
+
   // Palette — cozy house interior
   const P = {
     // Walls
@@ -83,6 +91,25 @@
     flowerYellow: "#e8d080",
     flowerPink: "#e8a8c0",
   };
+
+  const PLAYGROUND = [
+    { x: 0, y: H * 0.88, w: W, h: 12, type: "ground" },
+    { x: W * 0.08, y: H * 0.75, w: W * 0.15, h: 8, type: "shelf" },
+    { x: W * 0.5, y: H * 0.72, w: W * 0.12, h: 8, type: "shelf" },
+    { x: W * 0.2, y: H * 0.58, w: W * 0.12, h: 8, type: "shelf" },
+    { x: W * 0.65, y: H * 0.55, w: W * 0.15, h: 8, type: "shelf" },
+    { x: W * 0.35, y: H * 0.42, w: W * 0.12, h: 8, type: "shelf" },
+    { x: W * 0.75, y: H * 0.38, w: W * 0.1, h: 8, type: "shelf" },
+  ];
+
+  function drawShelf(x, y, w, h) {
+    ctx.fillStyle = "#8a6a4a";
+    ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = "#6a4a2a";
+    ctx.fillRect(x, y + 2, w, h - 2);
+    ctx.fillStyle = "#4a2a1a";
+    ctx.fillRect(x, y + h - 2, w, 2);
+  }
 
   function drawGardenBackground(now) {
     const time = now * 0.001;
@@ -293,6 +320,17 @@
 
   function drawBackground() {
     drawGardenBackground(performance.now());
+    // Draw platforms
+    for (const plat of PLAYGROUND) {
+      if (plat.type === "ground") {
+        ctx.fillStyle = "#6a4a2a";
+        ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
+        ctx.fillStyle = "#8a6a4a";
+        ctx.fillRect(plat.x, plat.y, plat.w, 2);
+      } else if (plat.type === "shelf") {
+        drawShelf(plat.x, plat.y, plat.w, plat.h);
+      }
+    }
   }
 
   // ============================================================
@@ -347,6 +385,7 @@
   ];
 
   for (let i = 0; i < 20; i++) {
+    const isPlayer = (i === 0);
     const colors = CAT_COLORS[i];
     const pos = CAT_POSITIONS[i];
     CATS.push({
@@ -356,6 +395,7 @@
       y: pos.y,
       scale: 2.4 + Math.random() * 0.6,
       facing: pos.facing,
+      isPlayer: isPlayer,
       state: "sitting",
       stateTime: Math.random() * 3000,
       stateDuration: 2000 + Math.random() * 3000,
@@ -366,6 +406,12 @@
       earTwitch: 0,
       earTwitchTimer: Math.random() * 5000,
       breathing: 0,
+      vx: 0,
+      onGround: false,
+      isPlayer: false,
+      npcTimer: Math.random() * 2000,
+      npcState: "idle",
+      npcDir: 1,
       headTurnX: 0,
       headTurnY: 0,
       reactPhase: 0,
@@ -513,7 +559,6 @@
   }
 
   function updateCat(cat, dt, now) {
-    // Basic idle animations
     cat.breathing = Math.sin(now * 0.0012 + cat.index * 0.5);
     cat.tailAngle = Math.sin(now * 0.0025 + cat.index * 0.3) * 12;
     cat.blinkTimer += dt;
@@ -535,20 +580,26 @@
 
     if (cat.dragging) return;
 
-    // Falling state - vertical drop at same X
+    // Falling state
     if (cat.moveState === "falling") {
-      cat.vy += 0.8; // gravity
+      cat.vy += 0.8;
       cat.y += cat.vy;
-      cat.walkPhase += dt * 0.02;
-      const groundY = H * 0.85;
-      if (cat.y >= groundY) {
-        cat.y = groundY;
+      let landY = H * 0.88 - 2;
+      for (const plat of PLAYGROUND) {
+        if (plat.type === "tree") continue;
+        if (cat.x >= plat.x && cat.x <= plat.x + plat.w) {
+          if (plat.y > cat.y && plat.y < landY) landY = plat.y - 2;
+        }
+      }
+      if (cat.y >= landY) {
+        cat.y = landY;
         cat.vy = 0;
         cat.moveState = "sitting";
         cat.moveTimer = 0;
         cat.moveDuration = 3000 + Math.random() * 5000;
         cat.targetX = cat.x;
         cat.targetY = cat.y;
+        cat.onGround = true;
       }
       const mdx = cat.mouseX - cat.x;
       const mdy = cat.mouseY - cat.y;
@@ -563,41 +614,145 @@
       return;
     }
 
-    // Movement state machine: sitting <-> walking
-    cat.moveTimer += dt;
-    if (cat.moveState === "sitting") {
-      if (cat.moveTimer > cat.moveDuration) {
-        cat.moveTimer = 0;
-        cat.moveDuration = 3000 + Math.random() * 5000;
-        // Decide to walk
-        if (Math.random() < 0.7) {
-          cat.moveState = "walking";
-          cat.targetX = 80 + Math.random() * (W - 160);
-          cat.targetY = H * 0.58 + Math.random() * (H * 0.28);
-          cat.facing = cat.targetX > cat.x ? 1 : -1;
-        }
+    // Player cat
+    if (cat.isPlayer) {
+      if (keys.left) { cat.vx -= 0.8; cat.facing = -1; }
+      else if (keys.right) { cat.vx += 0.8; cat.facing = 1; }
+      else { cat.vx *= FRICTION; }
+      cat.vx = Math.max(-MOVE_SPEED, Math.min(MOVE_SPEED, cat.vx));
+      if (Math.abs(cat.vx) < 0.1) cat.vx = 0;
+
+      if (keys.jump && cat.onGround) {
+        cat.vy = JUMP_STRENGTH;
+        cat.onGround = false;
       }
-    } else if (cat.moveState === "walking") {
-      const dx = cat.targetX - cat.x;
-      const dy = cat.targetY - cat.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 4) {
-        cat.moveState = "sitting";
-        cat.moveTimer = 0;
-        cat.moveDuration = 3000 + Math.random() * 5000;
-        cat.walkPhase = 0;
+
+      if (keys.down && cat.onGround) {
+        cat.y += 5;
+        cat.onGround = false;
+        cat.vy = 2;
+      }
+
+      cat.vy += GRAVITY;
+      cat.vy = Math.min(cat.vy, MAX_FALL);
+
+      const newX = cat.x + cat.vx;
+      if (newX < 10 * (cat.scale || 2.5)) cat.vx = 0;
+      else if (newX > W - 10 * (cat.scale || 2.5)) cat.vx = 0;
+      else cat.x = newX;
+
+      const newY = cat.y + cat.vy;
+      const coll = checkPlatformCollision(cat, cat.x, newY);
+      if (coll) {
+        if (coll.type === "land") {
+          cat.y = coll.y;
+          cat.vy = 0;
+          cat.onGround = true;
+        } else if (coll.type === "hit") {
+          cat.y = coll.y;
+          cat.vy = 0;
+        }
       } else {
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const walkSpeed = 0.6; // pixels per frame
-        const step = Math.min(walkSpeed, dist);
-        cat.x += (dx / dist) * step;
-        cat.y += (dy / dist) * step;
-        cat.walkPhase += dt * 0.012;
-        cat.facing = dx > 0 ? 1 : -1;
+        cat.y = newY;
+        cat.onGround = false;
+      }
+
+      if (cat.y > H * 0.88 - 2) {
+        cat.y = H * 0.88 - 2;
+        cat.vy = 0;
+        cat.onGround = true;
+      }
+
+      if (Math.abs(cat.vx) > 0.5) {
+        cat.walkPhase = (cat.walkPhase || 0) + Math.abs(cat.vx) * 0.1;
+        cat.moveState = "walking";
+      } else {
+        cat.moveState = "sitting";
+      }
+
+      const mdx = cat.mouseX - cat.x;
+      const mdy = cat.mouseY - cat.y;
+      const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+      if (mdist < 120) {
+        cat.headTurnX = Math.max(-10, Math.min(10, mdx * 0.03));
+        cat.headTurnY = Math.max(-6, Math.min(6, mdy * 0.03));
+      } else {
+        cat.headTurnX *= 0.95;
+        cat.headTurnY *= 0.95;
+      }
+      return;
+    }
+
+    // NPC physics
+    if (!cat.onGround) {
+      cat.vy += GRAVITY;
+      cat.vy = Math.min(cat.vy, MAX_FALL);
+      const newY = cat.y + cat.vy;
+      const coll = checkPlatformCollision(cat, cat.x, newY);
+      if (coll && coll.type === "land") {
+        cat.y = coll.y;
+        cat.vy = 0;
+        cat.onGround = true;
+      } else {
+        cat.y = newY;
+      }
+      if (cat.y > H * 0.88 - 2) {
+        cat.y = H * 0.88 - 2;
+        cat.vy = 0;
+        cat.onGround = true;
       }
     }
 
-    // Mouse interaction - head turn
+    // NPC behavior
+    cat.npcTimer = (cat.npcTimer || 0) + dt;
+    if (cat.npcTimer > 3000 + Math.random() * 4000) {
+      cat.npcTimer = 0;
+      const r = Math.random();
+      if (r < 0.5) cat.npcState = "idle";
+      else if (r < 0.8) {
+        cat.npcState = "walk";
+        cat.npcDir = Math.random() < 0.5 ? -1 : 1;
+        cat.npcWalkDuration = 1000 + Math.random() * 2000;
+        cat.npcWalkTimer = 0;
+      } else if (cat.onGround && r < 0.9) {
+        cat.npcState = "jump";
+        cat.vy = JUMP_STRENGTH * 0.8;
+        cat.onGround = false;
+        cat.npcDir = Math.random() < 0.5 ? -1 : 1;
+      }
+    }
+
+    if (cat.npcState === "walk") {
+      cat.npcWalkTimer = (cat.npcWalkTimer || 0) + dt;
+      if (cat.npcWalkTimer > (cat.npcWalkDuration || 2000)) {
+        cat.npcState = "idle";
+        cat.npcTimer = 0;
+      } else {
+        const step = cat.npcDir * 0.5;
+        const newX = cat.x + step;
+        if (newX > 10 * (cat.scale || 2.5) && newX < W - 10 * (cat.scale || 2.5)) {
+          cat.x = newX;
+          cat.facing = cat.npcDir;
+          cat.walkPhase = (cat.walkPhase || 0) + 0.1;
+          cat.moveState = "walking";
+        } else {
+          cat.npcState = "idle";
+        }
+        const below = checkPlatformCollision(cat, cat.x, cat.y + 5);
+        if (!below && cat.onGround) {
+          cat.onGround = false;
+        }
+      }
+    } else {
+      cat.moveState = "sitting";
+      cat.walkPhase = 0;
+    }
+
+    if (cat.npcState === "jump") {
+      cat.moveState = "walking";
+      cat.walkPhase = (cat.walkPhase || 0) + 0.1;
+    }
+
     const mdx = cat.mouseX - cat.x;
     const mdy = cat.mouseY - cat.y;
     const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
@@ -685,6 +840,55 @@
       }
     }
   }
+  function handleKeyDown(e) {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    switch (e.code) {
+      case "ArrowLeft": case "KeyA": keys.left = true; e.preventDefault(); break;
+      case "ArrowRight": case "KeyD": keys.right = true; e.preventDefault(); break;
+      case "ArrowUp": case "KeyW": case "Space": keys.jump = true; e.preventDefault(); break;
+      case "ArrowDown": case "KeyS": keys.down = true; e.preventDefault(); break;
+    }
+  }
+  function handleKeyUp(e) {
+    switch (e.code) {
+      case "ArrowLeft": case "KeyA": keys.left = false; break;
+      case "ArrowRight": case "KeyD": keys.right = false; break;
+      case "ArrowUp": case "KeyW": case "Space": keys.jump = false; break;
+      case "ArrowDown": case "KeyS": keys.down = false; break;
+    }
+  }
+  document.addEventListener("keydown", handleKeyDown);
+  document.addEventListener("keyup", handleKeyUp);
+
+  function getPlatforms() {
+    return PLAYGROUND.filter(p => p.type !== "tree");
+  }
+
+  function checkPlatformCollision(cat, newX, newY) {
+    const catW = 10 * (cat.scale || 2.5);
+    const catH = 16 * (cat.scale || 2.5);
+    const catLeft = newX - catW / 2;
+    const catRight = newX + catW / 2;
+    const catTop = newY - catH;
+    const catBottom = newY;
+
+    for (const plat of getPlatforms()) {
+      const platLeft = plat.x;
+      const platRight = plat.x + plat.w;
+      const platTop = plat.y;
+
+      if (catRight > platLeft && catLeft < platRight) {
+        if (cat.vy >= 0 && catBottom >= platTop && catBottom <= platTop + plat.h + 5) {
+          return { type: "land", y: platTop };
+        }
+        if (cat.vy < 0 && catTop <= platTop + plat.h && catTop >= platTop - 5) {
+          return { type: "hit", y: platTop + plat.h + catH };
+        }
+      }
+    }
+    return null;
+  }
+
 
   canvas.addEventListener("mousemove", handlePointerMove);
   canvas.addEventListener("mousedown", handlePointerDown);
@@ -787,5 +991,39 @@
     .navbar.scrolled .navbar__menu-btn { color: var(--ink); border-color: var(--border-strong); }
   `;
   document.head.appendChild(style);
+
+
+  // Mobile controls
+  const mobileControls = document.createElement("div");
+  mobileControls.style.cssText = "position:absolute;bottom:8px;right:8px;display:flex;gap:6px;pointer-events:none;z-index:10;align-items:flex-end;";
+  mobileControls.innerHTML = `
+    <button id="btnLeft" style="width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.6);color:#fff;font-size:14px;cursor:pointer;pointer-events:auto;">&#9664;</button>
+    <button id="btnRight" style="width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.6);color:#fff;font-size:14px;cursor:pointer;pointer-events:auto;">&#9654;</button>
+    <button id="btnJump" style="width:48px;height:48px;border-radius:50%;background:rgba(232,144,64,0.7);border:2px solid rgba(255,255,255,0.6);color:#fff;font-size:11px;font-weight:700;cursor:pointer;pointer-events:auto;">JUMP</button>
+  `;
+  const viewport = document.querySelector(".hero__viewport");
+  if (viewport && window.innerWidth < 768) {
+    viewport.style.position = "relative";
+    viewport.appendChild(mobileControls);
+  }
+
+  function setupMobileBtn(id, key) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener("touchstart", (e) => { e.preventDefault(); keys[key] = true; });
+    btn.addEventListener("touchend", (e) => { e.preventDefault(); keys[key] = false; });
+    btn.addEventListener("mousedown", () => { keys[key] = true; });
+    btn.addEventListener("mouseup", () => { keys[key] = false; });
+    btn.addEventListener("mouseleave", () => { keys[key] = false; });
+  }
+  setupMobileBtn("btnLeft", "left");
+  setupMobileBtn("btnRight", "right");
+  const jumpBtn = document.getElementById("btnJump");
+  if (jumpBtn) {
+    jumpBtn.addEventListener("touchstart", (e) => { e.preventDefault(); keys.jump = true; });
+    jumpBtn.addEventListener("touchend", (e) => { e.preventDefault(); keys.jump = false; });
+    jumpBtn.addEventListener("mousedown", () => { keys.jump = true; });
+    jumpBtn.addEventListener("mouseup", () => { keys.jump = false; });
+  }
 
 })();
