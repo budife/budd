@@ -342,8 +342,8 @@ button:focus-visible {
 
 /* Central bounded game viewport */
 .hero__viewport {
-  width: 90%;
-  max-width: 1400px;
+  width: 95%;
+  max-width: 1600px;
   min-width: 400px;
   position: relative;
   width: 55%;
