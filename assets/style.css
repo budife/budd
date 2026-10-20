@@ -311,11 +311,11 @@ button:focus-visible {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px 20px;
+  gap: 8px 12px;
   max-width: 900px;
   width: 100%;
-  min-height: 80px;
-  padding: 12px 0;
+  min-height: 60px;
+  padding: 8px 0;
 }
 
 .hero__decorative-cats .deco-cat {
