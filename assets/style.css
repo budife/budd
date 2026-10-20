@@ -345,11 +345,8 @@ button:focus-visible {
   width: 95%;
   max-width: 1600px;
   min-width: 400px;
-  position: relative;
-  width: 55%;
-  max-width: 900px;
-  min-width: 320px;
-  aspect-ratio: 800 / 320;
+  aspect-ratio: 16 / 9;
+  min-height: 300px;
   border: 3px solid rgba(15, 61, 62, 0.3);
   border-radius: 4px;
   overflow: hidden;
@@ -852,6 +849,8 @@ button:focus-visible {
   .hero__viewport {
     width: 95%;
     min-width: 280px;
+    aspect-ratio: 16 / 9;
+    min-height: 200px;
   }
 
   .hero__viewport {
