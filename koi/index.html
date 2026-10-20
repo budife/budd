@@ -61,7 +61,66 @@
       }
     </script>
     <title>Nagomi — Interactive Koi Pond</title>
-    <script type="module" crossorigin src="/koi/assets/index-CL5G4mat.js"></script>
+    <script>
+(function() {
+  const hour = new Date().getHours();
+  let weather = "sunny";
+  if (hour >= 6 && hour < 10) weather = "sunny";
+  else if (hour >= 10 && hour < 16) weather = "deep-clear";
+  else if (hour >= 16 && hour < 18) weather = "sunset";
+  else if (hour >= 18 && hour < 20) weather = "sunset";
+  else weather = "moonlight";
+  
+  try {
+    const saved = JSON.parse(localStorage.getItem("mizukoi:pond-settings:v2") || "{}");
+    saved.version = 2;
+    saved.weather = weather;
+    saved.rain = false;
+    if (!saved.overrides) saved.overrides = {};
+    localStorage.setItem("mizukoi:pond-settings:v2", JSON.stringify(saved));
+  } catch(e) {}
+})();
+</script>
+<style>
+  /* Hide UI overlay */
+  #root > div > div:last-child,
+  [class*="fixed"][class*="bottom"],
+  [class*="fixed"][class*="top"] {
+    display: none !important;
+  }
+</style>
+<script>
+(function() {
+  // Remove all buttons and UI elements after render
+  function hideUI() {
+    const root = document.getElementById("root");
+    if (!root) return;
+    // Hide all buttons
+    root.querySelectorAll("button").forEach(b => {
+      b.style.display = "none";
+      b.style.visibility = "hidden";
+      b.style.pointerEvents = "none";
+    });
+    // Hide all elements with "fixed" positioning (UI overlays)
+    root.querySelectorAll("*").forEach(el => {
+      const style = window.getComputedStyle(el);
+      if (style.position === "fixed" || style.position === "absolute") {
+        const rect = el.getBoundingClientRect();
+        // Only hide small UI elements, not the canvas
+        if (rect.width < 400 && rect.height < 200) {
+          el.style.display = "none";
+        }
+      }
+    });
+  }
+  // Run repeatedly to catch dynamically rendered elements
+  setInterval(hideUI, 100);
+  // Also run on DOM changes
+  const observer = new MutationObserver(hideUI);
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+<script type="module" crossorigin src="/koi/assets/index-CL5G4mat.js"></script>
     <link rel="stylesheet" crossorigin href="/koi/assets/index-Bh4rlDd2.css">
   </head>
   <body>
