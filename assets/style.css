@@ -293,12 +293,20 @@ button:focus-visible {
   position: relative;
   min-height: 100vh;
   padding: 80px 24px 40px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  grid-template-rows: auto auto auto;
   align-items: center;
-  gap: 24px;
+  gap: 24px 40px;
   overflow: hidden;
   background: transparent;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero__decorative-cats {
+  grid-column: 1 / -1;
+  grid-row: 1;
 }
 
 /* Decorative cats (upper area) */
@@ -320,8 +328,10 @@ button:focus-visible {
   image-rendering: crisp-edges;
 }
 
-/* Hero content (left-aligned, above viewport) */
+/* Hero content (left column) */
 .hero__content {
+  grid-column: 1;
+  grid-row: 2;
   position: relative;
   z-index: 2;
   max-width: 780px;
@@ -335,6 +345,8 @@ button:focus-visible {
 
 /* Central bounded game viewport */
 .hero__viewport {
+  grid-column: 2;
+  grid-row: 2;
   position: relative;
   width: 55%;
   max-width: 900px;
@@ -358,6 +370,8 @@ button:focus-visible {
 
 /* Hero boundary (bottom) */
 .hero__boundary {
+  grid-column: 1 / -1;
+  grid-row: 3;
   width: 100%;
   height: 4px;
   background: linear-gradient(90deg, transparent, rgba(15, 61, 62, 0.2), transparent);
@@ -836,6 +850,24 @@ button:focus-visible {
   .hero {
     min-height: auto;
     padding: 60px 16px 24px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+
+  .hero__content {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .hero__viewport {
+    grid-column: 1;
+    grid-row: 3;
+    width: 95%;
+  }
+
+  .hero__boundary {
+    grid-column: 1;
+    grid-row: 4;
   }
 
   .hero__viewport {
