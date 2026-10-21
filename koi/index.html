@@ -63,6 +63,7 @@
     <title>Nagomi — Interactive Koi Pond</title>
     <script>
 (function() {
+  // Auto-set weather based on local time
   const hour = new Date().getHours();
   let weather = "sunny";
   if (hour >= 6 && hour < 10) weather = "sunny";
@@ -70,7 +71,8 @@
   else if (hour >= 16 && hour < 18) weather = "sunset";
   else if (hour >= 18 && hour < 20) weather = "sunset";
   else weather = "moonlight";
-  
+
+  // Override any UI/controls/settings
   try {
     const saved = JSON.parse(localStorage.getItem("mizukoi:pond-settings:v2") || "{}");
     saved.version = 2;
@@ -79,50 +81,58 @@
     if (!saved.overrides) saved.overrides = {};
     localStorage.setItem("mizukoi:pond-settings:v2", JSON.stringify(saved));
   } catch(e) {}
-})();
-</script>
-<style>
-  /* Hide UI overlay */
-  #root > div > div:last-child,
-  [class*="fixed"][class*="bottom"],
-  [class*="fixed"][class*="top"] {
-    display: none !important;
-  }
-</style>
-<script>
-(function() {
-  // Remove all buttons and UI elements after render
-  function hideUI() {
-    const root = document.getElementById("root");
+
+  // Aggressively remove ALL UI controls after render
+  function purgeUI(root) {
     if (!root) return;
-    // Hide all buttons
-    root.querySelectorAll("button").forEach(b => {
-      b.style.display = "none";
-      b.style.visibility = "hidden";
-      b.style.pointerEvents = "none";
+    root.querySelectorAll("button, [role=button], [role=dialog], [role=menu], .btn, [class*=button], [class*=control], [class*=settings], [class*=drawer], [class*=menu], [class*=kbd], [class*=separator], [class*=switch], .weather-trigger, .weather-menu, .config-editor, .quick-settings, .settings-controls").forEach(el => {
+      el.remove();
     });
-    // Hide all elements with "fixed" positioning (UI overlays)
+    // Hide fixed/absolute positioned UI elements (small ones)
     root.querySelectorAll("*").forEach(el => {
-      const style = window.getComputedStyle(el);
-      if (style.position === "fixed" || style.position === "absolute") {
-        const rect = el.getBoundingClientRect();
-        // Only hide small UI elements, not the canvas
-        if (rect.width < 400 && rect.height < 200) {
-          el.style.display = "none";
-        }
+      const s = getComputedStyle(el);
+      if ((s.position === "fixed" || s.position === "absolute") && el.offsetWidth < 400 && el.offsetHeight < 200) {
+        el.remove();
       }
     });
   }
-  // Run repeatedly to catch dynamically rendered elements
-  setInterval(hideUI, 100);
-  // Also run on DOM changes
-  const observer = new MutationObserver(hideUI);
-  observer.observe(document.body, { childList: true, subtree: true });
+
+  const root = document.getElementById("root");
+  if (root) {
+    purgeUI(root);
+    const mo = new MutationObserver(() => purgeUI(root));
+    mo.observe(root, { childList: true, subtree: true });
+  }
+  // Fallback: also observe body
+  const mo2 = new MutationObserver(() => purgeUI(document.body));
+  mo2.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
 <script type="module" crossorigin src="/koi/assets/index-CL5G4mat.js"></script>
     <link rel="stylesheet" crossorigin href="/koi/assets/index-Bh4rlDd2.css">
-  </head>
+  <style>
+  /* Hide ALL UI controls - only show fish */
+  button, [role="button"], [role="dialog"], [role="menu"],
+  [class*="trigger"], [class*="settings"], [class*="control"],
+  [class*="drawer"], [class*="menu"], [class*="kbd"],
+  [class*="separator"], [class*="switch"], [class*="weather"],
+  [class*="frame-rate"], [class*="ambient"],
+  .settings-trigger, .frame-rate-trigger, .weather-trigger {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Hide fixed/absolute positioned UI containers */
+  [class*="fixed"][class*="bottom"],
+  [class*="fixed"][class*="top"],
+  [class*="absolute"][class*="bottom"],
+  [class*="absolute"][class*="top"] {
+    display: none !important;
+  }
+</style></head>
   <body>
     <div id="root"></div>
     <noscript>
