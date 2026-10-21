@@ -132,6 +132,33 @@
   [class*="absolute"][class*="top"] {
     display: none !important;
   }
+</style><style>
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #0a1a1a !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  #root {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  canvas {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: cover !important;
+  }
 </style></head>
   <body>
     <div id="root"></div>
