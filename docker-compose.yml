@@ -1,0 +1,50 @@
+services:
+  main-page:
+    image: nginx:alpine
+    container_name: main-page
+    restart: unless-stopped
+    volumes:
+      - /srv/projects/maintenance:/usr/share/nginx/html:ro
+    networks:
+      - proxy
+  play-page:
+    image: nginx:alpine
+    container_name: play-page
+    restart: unless-stopped
+    volumes:
+      - /home/budd/apps/play:/usr/share/nginx/html:ro
+    networks:
+      - proxy
+  project-page:
+    image: nginx:alpine
+    container_name: project-page
+    restart: unless-stopped
+    volumes:
+      - /home/budd/apps/project:/usr/share/nginx/html:ro
+    networks:
+      - proxy
+  buca-page:
+    image: nginx:alpine
+    container_name: buca-page
+    restart: unless-stopped
+    volumes:
+      - /home/budd/apps/buca:/usr/share/nginx/html:ro
+    networks:
+      - proxy
+  hermes-dashboard:
+    image: nousresearch/hermes-agent:latest
+    container_name: hermes-dashboard
+    restart: unless-stopped
+    command: hermes dashboard
+    ports:
+      - "3030:3030"
+    environment:
+      HERMES_DASHBOARD_TOKEN: ${HERMES_DASHBOARD_TOKEN:-changeme}
+      HERMES_HOME: /app/hermes
+    volumes:
+      - /home/budd/.hermes:/app/hermes
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
