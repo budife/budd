@@ -1,0 +1,89 @@
+/*
+  Hallmark Cobalt Tokens — Exact OKLCH values from Hallmark spec
+  Editorial semantic aliases layered on top
+*/
+
+:root {
+  /* Hallmark Cobalt exact OKLCH tokens */
+  --color-paper: oklch(0.986 0.005 250);
+  --color-ink: oklch(0.21 0.028 262);
+  --color-accent: oklch(0.52 0.19 258);
+  --color-graphite: oklch(0.18 0.02 260);
+  --color-glyph-1: oklch(0.35 0.02 262);
+  --color-glyph-2: oklch(0.5 0.02 262);
+  --color-glyph-3: oklch(0.65 0.02 262);
+  --color-glyph-4: oklch(0.8 0.02 262);
+  --color-keycap-bg: oklch(0.92 0.01 260);
+  --color-keycap-ink: oklch(0.25 0.02 262);
+  --color-keycap-accent: oklch(0.52 0.19 258);
+  --color-rule-hairline: oklch(0.85 0.01 260);
+  --color-rule-bold: oklch(0.7 0.02 260);
+  --color-shadow-1: oklch(0 0 0 / 0.05);
+  --color-shadow-2: oklch(0 0 0 / 0.1);
+  --color-shadow-3: oklch(0 0 0 / 0.15);
+
+  /* Editorial semantic aliases */
+  --color-canvas: var(--color-paper);
+  --color-surface: #ffffff;
+  --color-border: var(--color-rule-hairline);
+  --color-border-hover: var(--color-rule-bold);
+  --color-text-primary: var(--color-ink);
+  --color-text-secondary: var(--color-glyph-2);
+  --color-text-muted: var(--color-glyph-3);
+  --accent-primary: var(--color-accent);
+
+  /* Spacing 8pt grid */
+  --space-4xs: 2px;
+  --space-3xs: 4px;
+  --space-2xs: 8px;
+  --space-xs: 12px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 128px;
+  --space-5xl: 192px;
+
+  /* Radii */
+  --radius-card: 2px;
+  --radius-card-core: 0px;
+  --radius-key: 4px;
+
+  /* Durations */
+  --duration-instant: 0ms;
+  --duration-fast: 120ms;
+  --duration-base: 160ms;
+  --duration-standard: 200ms;
+  --duration-modal: 250ms;
+  --duration-reveal: 400ms;
+
+  /* Custom easings (Emil Kowalski) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.61, 0.7, 1.3);
+  --ease-linear: linear;
+
+  /* Font stacks */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Newsreader', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-ui: var(--font-mono);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-standard: 0ms;
+    --duration-modal: 0ms;
+    --duration-reveal: 0ms;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

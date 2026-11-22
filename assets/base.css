@@ -1,0 +1,200 @@
+/*
+  Hallmark Base + Double-Bezel Cards, Nested Keycaps, Cut-Corner, Graphite Panels, Hairline Rules
+*/
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; -moz-tab-size: 4; tab-size: 4; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  background: var(--color-canvas);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+}
+h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: -0.03em; }
+h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); letter-spacing: -0.02em; }
+h3 { font-size: clamp(1.125rem, 2vw, 1.375rem); letter-spacing: -0.01em; }
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color var(--duration-base) var(--ease-out);
+}
+a:hover { color: var(--color-ink); }
+
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border-radius: var(--radius-key);
+  z-index: 10000;
+}
+.skip-link:focus { top: var(--space-sm); }
+
+/* Double-bezel card architecture */
+.card-shell {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 1px 3px var(--color-shadow-1), 0 1px 2px var(--color-shadow-1);
+  overflow: hidden;
+  transition: box-shadow var(--duration-standard) var(--ease-out), border-color var(--duration-standard) var(--ease-out), transform var(--duration-base) var(--ease-out);
+}
+.card-shell:hover {
+  box-shadow: 0 4px 12px var(--color-shadow-2), 0 2px 4px var(--color-shadow-2);
+  border-color: var(--color-border-hover);
+  transform: translateY(-1px);
+}
+.card-shell:focus-within {
+  box-shadow: 0 0 0 2px var(--accent-primary);
+}
+.card-core {
+  padding: var(--space-sm);
+  border-radius: var(--radius-card-core);
+}
+
+/* Nested CTA keycap (Hallmark Cobalt .key/.key--primary) */
+.keycap-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3xs);
+  padding: var(--space-3xs) var(--space-xs);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  background: var(--color-keycap-bg);
+  color: var(--color-keycap-ink);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-key);
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out), transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+  will-change: transform, box-shadow;
+}
+.keycap-cta__icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+.keycap-cta:hover {
+  background: var(--accent-primary);
+  color: var(--color-paper);
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px oklch(0.52 0.19 258 / 0.3);
+}
+.keycap-cta:hover .keycap-cta__icon {
+  transform: translateX(2px);
+}
+.keycap-cta:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+.keycap-cta:active {
+  transform: scale(0.97) translateY(1px);
+  box-shadow: none;
+}
+.keycap-cta--primary {
+  background: var(--accent-primary);
+  color: var(--color-paper);
+  border-color: var(--accent-primary);
+}
+.keycap-cta--primary:hover {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+}
+
+/* Cut-corner (Cobalt .cut-card) */
+.cut-card {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.cut-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, transparent 50%, var(--accent-primary) 50%);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  opacity: 0;
+  transition: opacity var(--duration-standard) var(--ease-out);
+}
+.cut-card:hover::before {
+  opacity: 1;
+}
+
+/* Graphite panel (Cobalt) */
+.graphite-panel {
+  background: var(--color-graphite);
+  color: var(--color-paper);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+}
+
+/* Hairline rules */
+.rule-hairline { border-top: 1px solid var(--color-rule-hairline); }
+.rule-bold { border-top: 2px solid var(--color-rule-bold); }
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+.section { padding: var(--space-3xl) 0; }
+
+/* Reveal utilities */
+.reveal {
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  transition: clip-path var(--duration-reveal) var(--ease-out), opacity var(--duration-reveal) var(--ease-out);
+}
+.reveal.is-visible {
+  clip-path: inset(0 0 0 0);
+  opacity: 1;
+}
+
+/* Hardware acceleration hints */
+.gpu {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Section header */
+.section-header { margin-bottom: var(--space-xl); }
+.section-title { margin: 0 0 var(--space-xs); }
+.section-desc { margin: 0; color: var(--color-text-secondary); font-size: clamp(1rem, 1.5vw, 1.125rem); }

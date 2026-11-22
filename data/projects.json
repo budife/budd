@@ -1,0 +1,57 @@
+{
+  "projects": [
+    {
+      "id": "ubichee",
+      "title": "Ubichee",
+      "description": "WooCommerce + Midtrans storefront for Indonesian snacks",
+      "tags": ["WordPress", "WooCommerce", "PHP", "Midtrans"],
+      "github": "https://github.com/ecaaa-dev/ubichee",
+      "live": "https://ubichee.budd.my.id",
+      "updated": "2026-11-20",
+      "featured": true
+    },
+    {
+      "id": "reqord",
+      "title": "Reqord",
+      "description": "Google Drive folder scanner for creative requests with Supabase sync",
+      "tags": ["Vanilla JS", "Supabase", "Google Drive API", "IndexedDB"],
+      "github": "https://github.com/budife/reqord",
+      "live": "https://reqord.budd.my.id",
+      "updated": "2026-11-16",
+      "featured": true
+    },
+    {
+      "id": "easy-absen",
+      "title": "Easy Absen",
+      "description": "Client-side attendance tracker with SheetJS export, no backend",
+      "tags": ["Vanilla JS", "SheetJS", "localStorage", "GitHub Pages"],
+      "github": "https://github.com/budife/easy-absen",
+      "live": "https://budd.my.id/easy-absen",
+      "updated": "2026-11-10",
+      "featured": true
+    }
+  ],
+  "experiments": [
+    {
+      "id": "pixel-desk",
+      "title": "Pixel Desk Workspace",
+      "description": "Interactive pixel art desk with draggable items",
+      "tags": ["Canvas 2D", "Vanilla JS", "Drag API"],
+      "github": "https://github.com/budife/pixel-desk",
+      "updated": "2026-11-22"
+    },
+    {
+      "id": "ascii-field",
+      "title": "ASCII Field Canvas",
+      "description": "16x40 glyph field with spring mouse lens",
+      "tags": ["Canvas 2D", "Spring Physics", "WAAPI"],
+      "github": "https://github.com/budife/ascii-field",
+      "updated": "2026-11-22"
+    }
+  ],
+  "stats": {
+    "repos": 42,
+    "commits_2026": 1247,
+    "years_active": 7
+  }
+}

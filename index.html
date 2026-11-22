@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="budd — selected work and experiments by budife">
+  <title>budd</title>
+  
+  <!-- Preconnect fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Font preloads with font-display: optional -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtUA.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/newsreader/v12/2sDcZG1Wl4xPprVtVgQ5.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/inter/v19/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/jetbrainsmono/v23/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKg.woff2">
+  
+  <!-- Critical CSS inlined (~3KB) -->
+  <style>
+    /* === CRITICAL CSS: tokens, reset, header, hero, keycaps, field frame === */
+    :root{--color-paper:oklch(0.986 0.005 250);--color-ink:oklch(0.21 0.028 262);--color-accent:oklch(0.52 0.19 258);--color-graphite:oklch(0.18 0.02 260);--color-glyph-1:oklch(0.35 0.02 262);--color-glyph-2:oklch(0.5 0.02 262);--color-glyph-3:oklch(0.65 0.02 262);--color-glyph-4:oklch(0.8 0.02 262);--color-keycap-bg:oklch(0.92 0.01 260);--color-keycap-ink:oklch(0.25 0.02 262);--color-keycap-accent:oklch(0.52 0.19 258);--color-rule-hairline:oklch(0.85 0.01 260);--color-rule-bold:oklch(0.7 0.02 260);--color-shadow-1:oklch(0 0 0/0.05);--color-shadow-2:oklch(0 0 0/0.1);--color-shadow-3:oklch(0 0 0/0.15);--color-canvas:var(--color-paper);--color-surface:#fff;--color-border:var(--color-rule-hairline);--color-border-hover:var(--color-rule-bold);--color-text-primary:var(--color-ink);--color-text-secondary:var(--color-glyph-2);--color-text-muted:var(--color-glyph-3);--accent-primary:var(--color-accent);--space-3xs:4px;--space-2xs:8px;--space-xs:12px;--space-sm:16px;--space-md:24px;--space-lg:32px;--space-xl:48px;--space-2xl:64px;--space-3xl:96px;--radius-card:2px;--radius-key:4px;--duration-base:160ms;--duration-standard:200ms;--duration-reveal:400ms;--ease-out:cubic-bezier(.23,1,.32,1);--font-display:'Playfair Display',Georgia,serif;--font-body:'Newsreader','Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono','Fira Code',monospace;--font-ui:var(--font-mono)}@media(prefers-reduced-motion:reduce){:root{--duration-base:0ms;--duration-standard:0ms;--duration-reveal:0ms}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;tab-size:4}body{margin:0;min-height:100vh;font-family:var(--font-body);font-size:clamp(1rem,1.5vw,1.125rem);line-height:1.7;color:var(--color-text-primary);background:var(--color-canvas);-webkit-font-smoothing:antialiased;overflow-x:clip}h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.1;color:var(--color-text-primary)}h1{font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:-.03em}h2{font-size:clamp(1.75rem,4vw,2.5rem);letter-spacing:-.02em}a{color:var(--accent-primary);text-decoration:none;transition:color var(--duration-base) var(--ease-out)}:focus-visible{outline:2px solid var(--accent-primary);outline-offset:2px}.skip-link{position:absolute;top:-100%;left:var(--space-sm);padding:var(--space-xs) var(--space-sm);background:var(--color-ink);color:var(--color-paper);border-radius:var(--radius-key);z-index:10000}.skip-link:focus{top:var(--space-sm)}.site-header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-md) var(--space-lg);border-bottom:1px solid var(--color-border)}.wordmark{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.5rem);font-weight:600;letter-spacing:-.02em;color:var(--color-text-primary);text-decoration:none}.keycap-cta{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-3xs);padding:var(--space-3xs) var(--space-xs);font-family:var(--font-ui);font-size:.75rem;font-weight:500;line-height:1;background:var(--color-keycap-bg);color:var(--color-keycap-ink);border:1px solid var(--color-border);border-radius:var(--radius-key);cursor:pointer;user-select:none;transition:background var(--duration-base) var(--ease-out),color var(--duration-base) var(--ease-out),border-color var(--duration-base) var(--ease-out),transform var(--duration-fast) var(--ease-out),box-shadow var(--duration-base) var(--ease-out);will-change:transform,box-shadow}.keycap-cta__icon{display:inline-block;width:1em;height:1em;transition:transform var(--duration-base) var(--ease-out)}.keycap-cta:hover{background:var(--accent-primary);color:var(--color-paper);border-color:var(--accent-primary);transform:translateY(-1px);box-shadow:0 4px 12px oklch(0.52 0.19 258/.3)}.keycap-cta:hover .keycap-cta__icon{transform:translateX(2px)}.keycap-cta:focus-visible{outline:2px solid var(--accent-primary);outline-offset:2px}.keycap-cta:active{transform:scale(.97) translateY(1px);box-shadow:none}.hero{position:relative;min-height:60vh;display:flex;align-items:center;overflow:hidden}.hero-canvas{position:absolute;inset:0;z-index:0}.hero-content{position:relative;z-index:1;width:100%;max-width:1200px;margin:0 auto;padding:0 var(--space-lg)}.marquee-headline{display:flex;overflow:hidden;white-space:nowrap}.marquee-inner{display:flex;align-items:center;padding-right:var(--space-3xl);animation:marquee 20s linear infinite}.marquee-inner:hover,.marquee-inner:focus{animation-play-state:paused}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@media(prefers-reduced-motion:reduce){.marquee-inner{animation:none}}
+  </style>
+  
+  <!-- Non-critical CSS preload -->
+  <link rel="preload" as="style" href="assets/tokens.css" media="print" onload="this.media='all'">
+  <link rel="preload" as="style" href="assets/base.css" media="print" onload="this.media='all'">
+  <link rel="preload" as="style" href="assets/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="assets/tokens.css"><link rel="stylesheet" href="assets/base.css"><link rel="stylesheet" href="assets/style.css"></noscript>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  
+  <!-- Deferred JS -->
+  <script defer src="assets/script.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  
+  <header class="site-header" role="banner">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+      <a href="/" class="wordmark" aria-label="budd home">budd</a>
+      <a href="https://github.com/budife" class="keycap-cta keycap-cta--primary" target="_blank" rel="noopener" aria-label="View work on GitHub">
+        <span class="keycap-cta__label">View Work</span>
+        <svg class="keycap-cta__icon" aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+    </div>
+  </header>
+  
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-canvas" aria-hidden="true">
+        <canvas id="ambient-canvas"></canvas>
+      </div>
+      <div class="hero-content">
+        <h1 id="hero-title" class="marquee-headline" aria-hidden="true">
+          <span class="marquee-inner">Selected Work</span>
+          <span class="marquee-inner">Selected Work</span>
+        </h1>
+      </div>
+    </section>
+    
+    <section class="section projects" aria-labelledby="projects-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="projects-title" class="section-title">Projects</h2>
+          <p class="section-desc">Production work and shipped products.</p>
+        </header>
+        <div class="projects-grid" id="projects-grid" role="list"></div>
+      </div>
+    </section>
+    
+    <section class="section experiments" aria-labelledby="experiments-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="experiments-title" class="section-title">Experiments</h2>
+          <p class="section-desc">Playground prototypes and side quests.</p>
+        </header>
+        <div class="experiments-grid" id="experiments-grid" role="list"></div>
+      </div>
+    </section>
+    
+    <section class="section about-stats" aria-labelledby="about-title">
+      <div class="container">
+        <div class="about-stats-grid">
+          <div class="about-prose">
+            <h2 id="about-title" class="section-title">About</h2>
+            <p class="about-bio">Builder. Maker. Shipping things at <a href="https://github.com/budife">github.com/budife</a> since 2019.</p>
+          </div>
+          <dl class="stats-grid" aria-label="Key metrics">
+            <div class="stat"><dt class="stat-label">Repositories</dt><dd class="stat-value" data-counter="42">0</dd></div>
+            <div class="stat"><dt class="stat-label">Commits (2026)</dt><dd class="stat-value" data-counter="1247">0</dd></div>
+            <div class="stat"><dt class="stat-label">Years Active</dt><dd class="stat-value" data-counter="7">0</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer class="mast-footer" role="contentinfo">
+    <div class="container">
+      <p class="footer-copy">© <span data-year></span> budd. Built with <a href="https://www.usehallmark.com">Hallmark</a>.</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="https://github.com/budife" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:budi.indra94@gmail.com">Email</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
