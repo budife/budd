@@ -1,0 +1,16 @@
+{
+  "projects": [
+    { "title": "ubichee", "description": "WooCommerce + Midtrans store. PHP, Docker, Nginx, MariaDB.", "github": "https://github.com/budife/ubichee", "live": "https://ubichee.budd.my.id", "tags": ["WordPress", "WooCommerce", "Midtrans", "Docker"], "updated": "2026-11" },
+    { "title": "reqord", "description": "Request order tracker. Google Drive scan, localStorage + IndexedDB + Supabase sync, auth, bulk actions.", "github": "https://github.com/budife/reqord", "live": "https://budife.github.io/reqord", "tags": ["Vanilla JS", "Supabase", "IndexedDB", "Google Drive API"], "updated": "2026-10" },
+    { "title": "easy-absen", "description": "Attendance tool. SheetJS, localStorage, GitHub Pages, no backend.", "github": "https://github.com/budife/easy-absen", "live": "https://budife.github.io/easy-absen", "tags": ["SheetJS", "localStorage", "GitHub Pages"], "updated": "2026-09" },
+    { "title": "budd", "description": "This portfolio. Static, nginx, Hallmark design tokens, zero framework.", "github": "https://github.com/budife/budd", "live": "https://budd.my.id", "tags": ["HTML", "CSS", "JS", "nginx", "Docker"], "updated": "2026-11" },
+    { "title": "opencode-hop", "description": "CLI wrapper for OpenCode with Cloudflare WARP IP rotation. ARM64 binary, systemd service.", "github": "https://github.com/TkgJamuKeliling/opencode-hop", "tags": ["Go", "CLI", "Cloudflare WARP", "wireproxy"], "updated": "2026-11" },
+    { "title": "nigeria-farm", "description": "Farm management dashboard. React, TypeScript, Tailwind, Supabase.", "github": "https://github.com/budife/nigeria-farm", "tags": ["React", "TypeScript", "Tailwind", "Supabase"], "updated": "2026-08" }
+  ],
+  "experiments": [
+    { "title": "pixel-koi", "description": "Canvas koi pond. 60fps, reduced-motion, no deps.", "github": "https://github.com/budife/pixel-koi" },
+    { "title": "ascii-field", "description": "Animated ASCII field. Spring physics, mouse lens, vectorized rendering.", "github": "https://github.com/budife/ascii-field" },
+    { "title": "brutalist-cv", "description": "Raw CV. Monospace, zero radius, high contrast.", "github": "https://github.com/budife/brutalist-cv" }
+  ],
+  "stats": { "repos": 47, "commits_2026": 1342, "years_active": 6 }
+}

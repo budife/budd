@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="budd — selected work and experiments by budife">
+<title>budd</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="assets/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="assets/style.css"></noscript>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23fff'/><rect x='.5' y='.5' width='31' height='31' fill='none' stroke='%23ccc' stroke-width='1'/><text x='16' y='22' font-family='system-ui' font-size='18' font-weight='600' fill='%23111' text-anchor='middle' dominant-baseline='middle'>b</text></svg>">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header" role="banner">
+  <div class="container header-inner">
+    <a href="/" class="wordmark" aria-label="budd home">budd</a>
+    <a href="https://github.com/budife" class="cta" target="_blank" rel="noopener" aria-label="View work on GitHub">View Work</a>
+  </div>
+</header>
+
+<main id="main" role="main">
+  <section class="section hero" aria-labelledby="hero-title">
+    <div class="container">
+      <h1 id="hero-title">Selected work & experiments</h1>
+      <p class="desc">Independent projects, tools, and things I built to learn. Mostly web, some CLI, occasional hardware.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="projects-title">
+    <div class="container">
+      <h2 id="projects-title">Projects</h2>
+      <div class="grid projects-grid" id="projects-grid" role="list">
+        <!-- hydrated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="experiments-title">
+    <div class="container">
+      <h2 id="experiments-title">Experiments</h2>
+      <div class="grid grid-2" id="experiments-grid" role="list">
+        <!-- hydrated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="about-title">
+    <div class="container">
+      <h2 id="about-title">About</h2>
+      <div class="grid grid-3">
+        <article class="card">
+          <h3>Repos</h3>
+          <p data-counter="repos">0</p>
+          <span class="meta">Public on GitHub</span>
+        </article>
+        <article class="card">
+          <h3>Commits (2026)</h3>
+          <p data-counter="commits_2026">0</p>
+          <span class="meta">This year</span>
+        </article>
+        <article class="card">
+          <h3>Years active</h3>
+          <p data-counter="years_active">0</p>
+          <span class="meta">Since 2019</span>
+        </article>
+      </div>
+      <p style="margin-top: var(--space-lg); color: var(--color-muted); max-width: 55ch;">
+        Built with vanilla HTML, CSS, JS. Hosted on VPS with nginx + Docker. 
+        Design tokens inspired by <a href="https://www.usehallmark.com">Hallmark</a>.
+        <a href="https://github.com/budife/budd">Source on GitHub</a>.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container footer-inner">
+    <p class="footer-copy">&copy; <span data-year></span> budd.</p>
+    <nav aria-label="Footer links">
+      <a href="https://github.com/budife" target="_blank" rel="noopener">GitHub</a>
+      <span style="margin: 0 var(--space-xs); color: var(--color-border);">·</span>
+      <a href="mailto:budi.indra94@gmail.com">Email</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+  
+  // Current year
+  const yearEl = document.querySelector('[data-year]');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  
+  // Load projects data
+  fetch('data/projects.json')
+    .then(r => r.json())
+    .then(data => {
+      // Projects grid
+      const pg = document.getElementById('projects-grid');
+      if (pg && data.projects?.length) {
+        pg.innerHTML = data.projects.map(p => `
+          <article class="card" role="listitem">
+            <h3>${escape(p.title)}</h3>
+            <p>${escape(p.description)}</p>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+              ${p.tags.map(t => `<code style="background:#f5f5f5; padding:2px 8px; border-radius:2px; font-size:.75rem;">${escape(t)}</code>`).join('')}
+            </div>
+            <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+              <a href="${escape(p.github)}" class="cta" target="_blank" rel="noopener">Code</a>
+              ${p.live ? `<a href="${escape(p.live)}" class="cta" target="_blank" rel="noopener">Live</a>` : ''}
+            </div>
+            <span class="meta">Updated ${escape(p.updated)}</span>
+          </article>
+        `).join('');
+      }
+      
+      // Experiments grid
+      const eg = document.getElementById('experiments-grid');
+      if (eg && data.experiments?.length) {
+        eg.innerHTML = data.experiments.map(e => `
+          <article class="card" role="listitem">
+            <h3>${escape(e.title)}</h3>
+            <p>${escape(e.description)}</p>
+            <a href="${escape(e.github)}" class="cta" target="_blank" rel="noopener" style="margin-top:12px; display:inline-block;">View Code</a>
+          </article>
+        `).join('');
+      }
+      
+      // Stats counters
+      if (data.stats) {
+        Object.entries(data.stats).forEach(([key, val]) => {
+          const el = document.querySelector(`[data-counter="${key}"]`);
+          if (el) el.textContent = val.toLocaleString();
+        });
+      }
+    })
+    .catch(() => {
+      document.getElementById('projects-grid').innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--color-muted);padding:var(--space-xl);">Failed to load projects.</p>';
+    });
+  
+  function escape(str) {
+    return String(str).replace(/[&<>"']/g, s => ({'&':'&','<':'<','>':'>','"':'"',"'":'''}[s]));
+  }
+})();
+</script>
+</body>
+</html>
